@@ -8,12 +8,18 @@
 			width: 300px;
 			height: 300px;
 			font-size: 100px;
+			border: 0px;
+			border-radius: 5px;
+			color: #fff;
+		}
+		.active {
+			border: 15px solid #DAEC8B;
 		}
 		.red {
-			background: #f00;
+			background: #FF5DA2;
 		}
 		.blue {
-			background: #00f;
+			background: #47D0BD;
 		}
 	</style>
 </head>
@@ -33,6 +39,11 @@
 
       function btnClick (color) {
       	socket.emit('chat message', color);
+
+      	$('#red').removeClass('active');
+      	$('#blue').removeClass('active');
+      	
+      	$('#'+color).addClass('active');
       }
     </script>
 </body>

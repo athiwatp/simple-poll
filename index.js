@@ -8,18 +8,28 @@ app.get('/', function (req, res) {
 
 var redCount = 0
 var blueCount = 0
+var clients = {}
 
 io.on('connection', function (socket) {
-  io.emit('chat message', {
-    red: redCount,
-    blue: blueCount
+  console.log(socket.id)
+  socket.on('disconnect', function () {
+    delete clients[socket.id]
   })
   socket.on('chat message', function (color) {
-    if (color === 'red') {
-      redCount++
-    } else if (color === 'blue') {
-      blueCount++
+    clients[socket.id] = color
+    console.log(clients)
+
+    redCount = 0
+    blueCount = 0
+    for (var key in clients) {
+      console.log(key + ' ' + clients[key])
+      if (clients[key] === 'red') {
+        redCount++
+      } else if (clients[key] === 'blue') {
+        blueCount++
+      }
     }
+
     io.emit('chat message', {
       red: redCount,
       blue: blueCount
